@@ -52,6 +52,62 @@ redux-promise-middleware is used to dispatch pending, fulfilled and rejected ver
 we need to just remove the call to `v0/one-on-ones/:oooid/goals` in order to do so we I have to trace where the attachedContent prop in AttachedSection component is getting its data from. 
 
 currently calling `getGoalsAttachedToOneOnOne` which then dispatches an action to set goals based on their type when the call is fulfilled.
-I can try to replace the call to  `one-on-ones/:oooid/goals` with `v1/one-on-ones/:id` within the `getGoalsAttachedToOneOnOne` fn. then I could pass `data.agendaContent` to the `transformGoals` fn. I would just need to figure out how align is getting agendaContents type currently. I will look into that tomorrow.
+I can try to replace the call to  `one-on-ones/:oooid/goals` with `v1/one-on-ones/:id` within the `getGoalsAttachedToOneOnOne` fn. then I could pass `data.agendaContent` to the `transformGoals` fn. I would just need to figure out how align is getting agendaContent.type currently. I will look into that tomorrow.
 
+# November 15th, 2018
 
+## Removing v0/one-on-ones/:oooid/goals continued
+
+This endpoint was not used in the rendering of any part of the UI. I was able to remove that and all referenced redux actions safely.
+
+## Deleting remote git tags
+
+`git tag -d [tagname]`
+
+## Calendar Web: Calendar tab and Calendar Settings
+
+### Location of tests for proper routing
+
+It doesn't look like there is anything currently testing that routing is done correctly when a link is clicked. But it seems to make sense that this should be done in component test files.
+
+### Testing that navigation works
+
+1. create store with call to createStore passing to it the reducer from our store.
+2. use the Provider component from react-redux and set the store prop to the store created in step 1.
+3. Create history with a call to createMemoryHistory from the history library and pass an an object with a key of initialEntries set to a value of an array containing initialEntry strings.
+4. Call the Router component from react-router as a child to the Provider component and pass your history to its history prop.
+5. Call your apps base component as a child to Router.
+6. make any assertions you need.
+
+When your done it should look something like this
+
+```
+  it('renders the calendar component when I navigate to those pages', () => {
+    const store = createStore(reducer);
+    const history = createMemoryHistory({ initialEntries: ['/'] });
+    const { getByTestId, queryByTestId, getByText } = render(
+      <Provider store={store}>
+        <Router history={history}>
+          <App {...appProps} />
+        </Router>
+      </Provider>,
+    );
+    expect(getByTestId('home')).toBeInTheDocument();
+    expect(queryByTestId('calendar')).not.toBeInTheDocument();
+    fireEvent.click(getByText(/calendar/i));
+    expect(queryByTestId('home')).not.toBeInTheDocument();
+    expect(getByTestId('calendar')).toBeInTheDocument();
+  });
+```
+
+This doesn't quite work though because I am rendering just the app. where the app renders it like this....
+
+```
+  <Provider store={store}>
+    <ThemeProvider theme={cssVariables}>
+      <Router history={history}>{routes}</Router>
+    </ThemeProvider>
+  </Provider>,
+```
+
+If I mirror that it should fix my problem.
