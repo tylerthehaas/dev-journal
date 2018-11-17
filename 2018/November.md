@@ -111,3 +111,15 @@ This doesn't quite work though because I am rendering just the app. where the ap
 ```
 
 If I mirror that it should fix my problem.
+
+# November 16th, 2018
+
+## Calendar Web: Calendar tab and Calendar Settings
+
+### Testing that navigation works continued 
+
+That worked except that firebase auth isn't being set correctly in the redux store causing an invariant violation. I may need to mock out the call to firebase auth to get this working correctly. This would require a more in depth knowledge of how firebase auth works within align. I'll work on that Monday.
+
+## migration off v0/one-on-ones/:oooid/goals
+
+Turns out the redux action I removed triggers a bunch of other calls that are necessary to be made somehow. This is triggered because AttachedSection component calls the getGoalsAttachedToOneOnOne action inside its componentWillMount lifecycle hook. This seems like a bad setup to me because a redux action shouldn't trigger unrelated calls to be made ( poor seperation of concerns ) but I will need to dig into this on Monday as well.
