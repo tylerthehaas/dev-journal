@@ -123,3 +123,9 @@ That worked except that firebase auth isn't being set correctly in the redux sto
 ## migration off v0/one-on-ones/:oooid/goals
 
 Turns out the redux action I removed triggers a bunch of other calls that are necessary to be made somehow. This is triggered because AttachedSection component calls the getGoalsAttachedToOneOnOne action inside its componentWillMount lifecycle hook. This seems like a bad setup to me because a redux action shouldn't trigger unrelated calls to be made ( poor seperation of concerns ) but I will need to dig into this on Monday as well.
+
+## November 18th, 2018
+
+### Testing that navigation works continued
+
+I successfully got past the error with firebase auth by mocking call to `auth.loadAuth`. The problem I am running into now is that without authorizing firebase we are stuck in a loading state so that is all that will get rendered in the test. I'm not sure this is solvable with the way that our app works currently so I think that this part is not testable at least until we are off firebase.
