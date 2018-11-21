@@ -124,8 +124,22 @@ That worked except that firebase auth isn't being set correctly in the redux sto
 
 Turns out the redux action I removed triggers a bunch of other calls that are necessary to be made somehow. This is triggered because AttachedSection component calls the getGoalsAttachedToOneOnOne action inside its componentWillMount lifecycle hook. This seems like a bad setup to me because a redux action shouldn't trigger unrelated calls to be made ( poor seperation of concerns ) but I will need to dig into this on Monday as well.
 
-## November 18th, 2018
+# November 18th, 2018
 
-### Testing that navigation works continued
+## Testing that navigation works continued
 
 I successfully got past the error with firebase auth by mocking call to `auth.loadAuth`. The problem I am running into now is that without authorizing firebase we are stuck in a loading state so that is all that will get rendered in the test. I'm not sure this is solvable with the way that our app works currently so I think that this part is not testable at least until we are off firebase.
+
+# November 19th, 2018
+
+## migration off v0/one-on-ones/:oooid/goals continued
+
+the v0/one-on-ones/:oooid/goals endpoint is only used to set and retrieve attached-section data. The v1/one-on-ones/:id endpoint doesn't have any functionality to fill in for what the deprecated endpoint was doing.
+
+# November 20th, 2018
+
+## disappearing sidebar
+
+There is a regex that determines which routes should have the sidebar. This is located at `src/reducers/app.js` in the `isOverview` key of the `handleActions` call.
+
+Got testing working to my satisfaction by creating a createProvider helper function. Tomorrow I will finish writing tests for Empty state.
