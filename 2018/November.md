@@ -143,3 +143,26 @@ the v0/one-on-ones/:oooid/goals endpoint is only used to set and retrieve attach
 There is a regex that determines which routes should have the sidebar. This is located at `src/reducers/app.js` in the `isOverview` key of the `handleActions` call.
 
 Got testing working to my satisfaction by creating a createProvider helper function. Tomorrow I will finish writing tests for Empty state.
+
+# November 21st, 2018
+
+## empty state
+
+There is an `Empty` component that renders our empty states.
+
+## side widgets
+
+The `AttachedSection` component handles all side widgets. This is currently mostly used for goals.
+
+## Home view
+
+The home view is rendered by the `Schedule` component. I added a prop to control whether or not to render unscheduled team members.
+
+## React-Testing-Library portals
+
+It is currently very hard if not impossible to test that a modal appears without testing implementation details. I want to look into this further but for now I will just test that the function that renders the modal is called.
+
+## calendar work
+
+I was able to 
+
