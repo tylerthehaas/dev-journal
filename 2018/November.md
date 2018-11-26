@@ -162,7 +162,12 @@ The home view is rendered by the `Schedule` component. I added a prop to control
 
 It is currently very hard if not impossible to test that a modal appears without testing implementation details. I want to look into this further but for now I will just test that the function that renders the modal is called. I need to post a question on slack and the testingjavascript community channel with a code example. I will do this by looking at `components/modal` which uses `dialog` from `material-ui` sometime by Saturday.
 
-## calendar work
+## Calendar work
 
 I was able to get empty state and list view working. This is really good progress. I feel much better about hitting our calendar deadline on the 30th.
+
+# November 26th, 2018
+
+## [.netrc purpose](https://ec.haxx.se/usingcurl-netrc.html)
+
 
