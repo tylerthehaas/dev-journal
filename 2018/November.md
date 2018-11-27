@@ -170,4 +170,14 @@ I was able to get empty state and list view working. This is really good progres
 
 ## [.netrc purpose](https://ec.haxx.se/usingcurl-netrc.html)
 
+# November 28th, 2018
 
+## [SSCCE](http://sscce.org/)
+
+## testing modal appears
+
+I was able to get this to work as an sscce on [codesandbox](https://codesandbox.io/s/v38m2x8o55). After further investigation I think my problem before had to do with the props I was passing into the test. I went down this path but decided it wasn't necessary because this functionality is being tested in other tests. I suspect I will revisit this problem sometime later
+
+## TODO: connect to outlook
+
+change from the `Link` component to use the `Button` component and call the `connectOutlook` service `onClick`.
