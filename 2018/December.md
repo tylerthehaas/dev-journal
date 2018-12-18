@@ -62,21 +62,58 @@ I think its better to use template strings at this point. There is an editor sol
 
 #December 14th, 2018
 
-## Get Beginning and End of Week with Moment.js
+## Get all Dates in a Week with Moment.js
 
 ```javascript
-const today = moment();
-const from_date = today.startOf('week');
-const to_date = today.endOf('week');
-console.log({
-  from_date: from_date.toString(),
-  today: moment().toString(),
-  to_date: to_date.toString(),
-});
+const getDatesToHighlight = (date: Date) => {
+  const startDate = moment(date).startOf('week');
+  const endDate = moment(date).endOf('week');
+  const dates = [];
 
-// {
-//   from_date: "Sun Apr 22 2018 00:00:00 GMT-0500",
-//   today: "Thu Apr 26 2018 15:18:43 GMT-0500",
-//   to_date: "Sat Apr 28 2018 23:59:59 GMT-0500"
-// }
+  do {
+    dates.push(startDate.clone().toDate());
+  } while (startDate.add(1, 'days').diff(endDate) < 1);
+
+  return dates;
+};
+
+console.log(getDatesToHighlight(moment())
 ```
+
+# December 17th, 2018
+
+## setState callback
+
+setState takes a callback as a second parameter which is useful for doing things that rely on the new state after setState is called. The new state will be available through `this.state` within the callback. [Read this](https://medium.learnreact.com/setstate-takes-a-callback-1f71ad5d2296) for more details.
+
+## react-datepicker
+
+### customizing the input
+
+You can customize the input element by passing a component to the customInput prop. This will render the html you want like this...
+
+```javascript
+class ExampleCustomInput extends React.Component {
+  render() {
+    return (
+      <button className="example-custom-input" onClick={this.props.onClick}>
+        {this.props.value}
+      </button>
+    );
+  }
+}
+
+...
+
+<DatePicker
+  customInput={<ExampleCustomInput />}
+  selected={this.state.startDate}
+  onChange={this.handleChange}
+  highlightDates={this.state.highlightWithRanges}
+  placeholderText="This highlight two ranges with custom classes"
+/>
+```
+
+## Typescript error `mouseevent is not generic`
+
+React's synthetic events are different from DOM events when an event is emitted from reacts system you must use `React.MouseEvent<HTMLInputElement>`. [More Info](https://stackoverflow.com/questions/44764146/why-is-the-mouseevent-in-the-checkbox-event-handler-not-generic).
