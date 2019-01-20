@@ -64,8 +64,8 @@ I think its better to use template strings at this point. There is an editor sol
 
 ## Get all Dates in a Week with Moment.js
 
-```javascript
-const getDatesToHighlight = (date: Date) => {
+```TypeScript
+const getDatesToHighlight = (date: moment.Moment) => {
   const startDate = moment(date).startOf('week');
   const endDate = moment(date).endOf('week');
   const dates = [];
