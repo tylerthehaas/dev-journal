@@ -104,3 +104,87 @@ const StyledCheckout: StyledComponent<
 ## using context api with hooks
 
 [React context api with hooks](https://tinkerylabs.com/react-context-api-with-hooks/)
+
+# January 21st, 2019
+
+## scoping searches in react-testing-library
+
+If you need to make sure that the text you are searching for appears in a certain part of a component that can be done using dom-testing-library.  To do that just pull in the query you want to use from dom-testing-library. That will take a container as its first argument that you want to search in. you can then render using react-testing-library and then find the element you want using querySelector. it would look something like the following:
+
+```javascript
+import { getByText } from 'dom-testing-library';
+import React from 'react';
+import { Route } from 'react-router';
+import { render } from 'react-testing-library';
+
+import { createProvider } from '../../test-utils/create-provider';
+
+const { container } = render(
+  createProvider(
+    <Route path="/" component={AddTeamMembersContainer} />,
+    initialState,
+  ),
+);
+
+const header = container.querySelector('header');
+
+expect(
+  getByText(header, new RegExp(`addTeamMember.${expected}`, 'i')),
+).toBeInTheDocument();
+```
+
+It is necessary to use dom-testing-library for this because react-testing-library auto binds the container returned from render as the HTMLElement used in the first argument to the query from dom-testing-library.
+
+# January 22nd, 2019
+
+## What it means to hydrate
+
+[What does it mean to hydrate an object?](https://stackoverflow.com/questions/6991135/what-does-it-mean-to-hydrate-an-object)
+
+## testing components with route params from react-router
+
+This can be done by wrapping the component in Router and Route components from react-router. Then set the path prop to include the route param that your component looks for. also set the location prop with an object that contains a pathname matching the format you set on the path prop. It would look something like:
+
+```javascript
+function testEmptyPanelParagraphVocab(
+  initialState,
+  expected,
+  pathname = '/team-members/004ae615-0d1c-4a9e-a6c9-e89c11b0558f/one-on-ones',
+) {
+  const hydratedInitialState = set(initialState, 'firebase.allUsers', [
+    {
+      createdAt: 1538521526551,
+      email: 'fermium0319bde6@octanner.mailinator.com',
+      firstName: 'User-Store',
+      lastName: 'Test-Created',
+      modifiedAt: 1544133846474,
+      id: '004ae615-0d1c-4a9e-a6c9-e89c11b0558f',
+    },
+  ]);
+  const history = createMemoryHistory({ initialEntries: [pathname] });
+  const { getByText } = render(
+    createProvider(
+      <Router history={history}>
+        <Route
+          path="/team-members/:employeeId/one-on-ones"
+          location={{ pathname }}
+          render={props => <ProfileOneOnOnesContainer {...props} />}
+        />
+      </Router>,
+      hydratedInitialState,
+    ),
+  );
+
+  expect(
+    getByText(
+      new RegExp(
+        `afterYouHaveAligned.${
+          pathname === '/me' ? 'manager' : 'employee'
+        }.${expected}`,
+        'i',
+      ),
+    ),
+  ).toBeInTheDocument();
+}
+```
+
