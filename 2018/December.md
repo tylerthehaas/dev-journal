@@ -60,7 +60,7 @@ I think its better to use template strings at this point. There is an editor sol
 1. Install [VS Code Styled Components extension](https://github.com/styled-components/vscode-styled-components).
 2. Install [Typscript Styled Plugin](https://github.com/Microsoft/typescript-styled-plugin) with yarn by running `yarn add -D typescript-styled-plugin` or with npm `npm i -D typescript-styled-plugin`.
 
-#December 14th, 2018
+# December 14th, 2018
 
 ## Get all Dates in a Week with Moment.js
 
