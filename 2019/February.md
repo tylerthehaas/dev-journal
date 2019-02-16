@@ -12,6 +12,9 @@
  ```javascript
  const formData = new FormData();
 formData.append('AWSAccessKeyId', string<AccessKey>);
-formData.append('file', File|TextContent);
-formData.append('key', FileName);
+formData.append('file', File|string<TextContent>);
+formData.append('key', path/to/destination/directory/in/s3/${FileName});
 ```
+* [Object Key and Metadata](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html)
+  
+
