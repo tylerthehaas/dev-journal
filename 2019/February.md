@@ -1,3 +1,13 @@
+# February 13th, 2019
+
+## deleting vs. archiving in align
+
+Firebase doesn't provide a way to do a soft delete of data as referenced [here](https://firebase.google.com/docs/database/web/read-and-write#updating_or_deleting_data). So in order to do this we do an update to the referenced row with an archive flag using the `firebase#update` method and then filter out archived data client side.
+
+## test if HTMLElement matches selector with Element.matches
+
+If you want to find out if an html element matches a given css selector [Element.matches](https://developer.mozilla.org/en-US/docs/Web/API/Element/matches) will do this for you!
+
 # February 16th, 2019
 
 ## aws authorization with multipart payload
@@ -16,5 +26,4 @@ formData.append('file', File|string<TextContent>);
 formData.append('key', path/to/destination/directory/in/s3/${FileName});
 ```
 * [Object Key and Metadata](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html)
-  
 
