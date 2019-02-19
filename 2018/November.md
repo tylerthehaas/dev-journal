@@ -182,13 +182,3 @@ I was able to get this to work as an sscce on [codesandbox](https://codesandbox.
 
 change from the `Link` component to use the `Button` component and call the `connectOutlook` service `onClick`.
 
-# November 29th, 2018
-
-## connect to outlook
-
-# November 30th, 2018
-
-## invision login
-
-username: marci.moon@octanner.com
-password: designalign
