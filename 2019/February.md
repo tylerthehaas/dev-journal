@@ -69,9 +69,10 @@ See [Getting Started](https://docs.aws.amazon.com/amazondynamodb/latest/develope
 
 # February 28th, 2019
 
-## search hashtags
+## search instagram hashtags for user and media data
 
 1. call the `me/accounts?fields=instagram_business_account,name` edge to get list of accounts for logged in user.
+  - [getting started](https://developers.facebook.com/docs/instagram-api/getting-started#test)
   - response will look like
   ```javascript
   {
@@ -94,6 +95,7 @@ See [Getting Started](https://docs.aws.amazon.com/amazondynamodb/latest/develope
 ```
 
 2. call the `ig_hashtag_search?q=${hashtag}&user_id=${data.instagram_business_account.id}` to get a list of posts for a given hashtag
+  - [IG Hashtag Search](https://developers.facebook.com/docs/instagram-api/reference/ig-hashtag-search)
   - response will look like
   ```javascript
   {
@@ -106,6 +108,7 @@ See [Getting Started](https://docs.aws.amazon.com/amazondynamodb/latest/develope
   ```
 
 3. call the `/${hashtag_id}/recent_media?fields=${fieldList}&user_id=${data.instagram_business_account.id}` edge to get a list of instagram posts.
+  - [Recent Media](https://developers.facebook.com/docs/instagram-api/reference/hashtag/recent-media)
   - response will look like
   ```javascript
   {
@@ -127,6 +130,7 @@ See [Getting Started](https://docs.aws.amazon.com/amazondynamodb/latest/develope
     * permalink
 
 3. Use `/${media.id}` edge to get detailed info for every media object returned in `recent_media` edge.
+  - [Media](https://developers.facebook.com/docs/instagram-api/reference/media)
   - response structure
     ```javascript
     {
@@ -158,7 +162,7 @@ See [Getting Started](https://docs.aws.amazon.com/amazondynamodb/latest/develope
     * username*
 
 4. use `/${owner.id}` edge to get details on the user who posted the media in step 3.
-  
+  - [User](https://developers.facebook.com/docs/instagram-api/reference/user)
   - sample response
     ```javascript
     {
