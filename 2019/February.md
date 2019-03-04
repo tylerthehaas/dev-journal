@@ -27,3 +27,41 @@ formData.append('key', path/to/destination/directory/in/s3/${FileName});
 ```
 * [Object Key and Metadata](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html)
 
+# February 21st, 2019
+
+## Making Impossible States Impossible in TypeScript
+
+In Haskell, Elm and possible ReasonML you can do a lot of things with data modeling that I want to bring over to TypeScript. Consider the following:
+
+```haskell
+data OrgOneOnOneReport error reports =
+    NotLoading
+  | Pending
+  | Rejected error
+  | Fulfilled reports
+```
+
+This can be done in TypeScript with the following:
+
+```
+enum LoadingState {
+  None = 'none',
+  Pending = 'pending',
+  Rejected = 'rejected',
+  Fulfilled = 'fulfilled',
+}
+
+type OrgOneOnOneReport<Error, Reports> =
+  | { loadingState: LoadingState.None }
+  | { loadingState: LoadingState.Pending }
+  | { loadingState: LoadingState.Rejected; error: Error }
+  | { loadingState: LoadingState.Fulfilled; reports: Reports };
+
+const initialState: OrgOneOnOneReport<string, FocusReport> = {
+  loadingState: LoadingState.None,
+};
+
+const [orgOneOnOneReports, setOrgOneOnOneReports] = React.useState(
+  initialState,
+);
+```
