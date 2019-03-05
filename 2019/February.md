@@ -77,22 +77,22 @@ See [Getting Started](https://docs.aws.amazon.com/amazondynamodb/latest/develope
   ```javascript
   {
   "data": [
-    {
-      "instagram_business_account": {
-        "id": "17841403366879346"
-      },
-      "name": "Bragify",
-      "id": "1504513843188856"
-    }
-  ],
-  "paging": {
-    "cursors": {
-      "before": "MTUwNDUxMzg0MzE4ODg1NgZDZD",
-      "after": "MTUwNDUxMzg0MzE4ODg1NgZDZD"
+      {
+        "instagram_business_account": {
+          "id": "17841403366879346"
+        },
+        "name": "Bragify",
+        "id": "1504513843188856"
+      }
+    ],
+    "paging": {
+      "cursors": {
+        "before": "MTUwNDUxMzg0MzE4ODg1NgZDZD",
+        "after": "MTUwNDUxMzg0MzE4ODg1NgZDZD"
+      }
     }
   }
-}
-```
+  ```
 
 2. call the `ig_hashtag_search?q=${hashtag}&user_id=${data.instagram_business_account.id}` to get a list of posts for a given hashtag
   - [IG Hashtag Search](https://developers.facebook.com/docs/instagram-api/reference/ig-hashtag-search)
