@@ -80,3 +80,11 @@ function stuff(a: Thing | number) {
 ```
 
 Here we can tell that the return type clearly cant be a number because we checked that it was a string. Yet when we call isNumber we do not get any warnings that something is amiss. Instead typescript assues that everything is a number even though the code says otherwise. This is a poor approach.
+
+## Todo on Gigg
+
+1. Getting a 502 on `/exchange-token` once mongo stuff is pulled in.
+2. need to get long lived token in `Instagram.js`.
+3. get facebook userId
+4. pass long lived token and userId to `Instagram constructor` as class properties.
+5. use token and userId in calls to graph api
