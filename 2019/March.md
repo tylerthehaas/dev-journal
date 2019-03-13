@@ -88,3 +88,67 @@ Here we can tell that the return type clearly cant be a number because we checke
 3. get facebook userId
 4. pass long lived token and userId to `Instagram constructor` as class properties.
 5. use token and userId in calls to graph api
+
+# March 5th, 2019
+
+## attachments not pinning to one on ones in IE11
+
+tags: `#attachments`
+
+The issue here is that when an attachment is added a modal pops up to have the user select the manager. When this happens the manager id is added to the attachment. In IE11 the `attachment.managerId` property is getting an empty string as a value.
+
+the attachments info is stored in firebase. So everything that updates the managerId for the attachment would have to happen in some firebase call. 
+
+In chrome (which is working) the only message sent that would alter the redux store with the necessary info is `child added changed`. but in chrome there is a managerId set on initial page load. it doesn't seem to be that way for IE11.
+
+# March 8th, 2019
+
+## Test file upload
+
+tags: `#fileupload #testing #react-testing-library`
+
+create a file using the File api use that to upload the file. See example below.
+
+```javascript
+  it('is able to upload csv files', async () => {
+    const { container, getByText } = render(
+      createProvider(<AddPeople {...props} />),
+    );
+
+    const filename = 'mylesgaskin.csv';
+    const file = new File(['(⌐□_□)'], filename, { type: 'text/csv' });
+    const fileInput = container.querySelector(
+      '#__test__add-people--file-upload',
+    );
+
+    // button should be disabled
+    expect(getByText(/upload/i).disabled).toBe(true);
+
+    // display text should be default text
+    expect(getByText(/addFile/i)).toBeInTheDocument();
+
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
+    await wait(() => getByText(filename));
+
+    // button should now be enabled
+    expect(getByText(/upload/i).disabled).toBe(false);
+    expect(getByText(/upload/i).type).toBe('submit');
+
+    // display text should show file name
+    expect(getByText(filename)).toBeInTheDocument();
+
+    fireEvent.click(getByText(/upload/i));
+
+    expect(services.getUploadStatus).toHaveBeenCalled();
+    expect(services.uploadUsersFile).toHaveBeenCalledTimes(1);
+  });
+```
+
+# March 13th, 2019
+
+## Problems testing material ui components.
+
+tags: `#material-ui #testing`
+
+`PeopleInput` is built so that you click on the input change the value and then the focus event causes another modal to appear with suggested people based on text match to the inputs value. When attempting to test this we were unable to find a way to trigger the modal because we cannot determine an event that would cause the modal to appear. we attempted this with both focus and click events on all elements in the dom tree throughout the part of the tree that is created by `PeopleInput`.
