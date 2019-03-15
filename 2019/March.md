@@ -152,3 +152,45 @@ create a file using the File api use that to upload the file. See example below.
 tags: `#material-ui #testing`
 
 `PeopleInput` is built so that you click on the input change the value and then the focus event causes another modal to appear with suggested people based on text match to the inputs value. When attempting to test this we were unable to find a way to trigger the modal because we cannot determine an event that would cause the modal to appear. we attempted this with both focus and click events on all elements in the dom tree throughout the part of the tree that is created by `PeopleInput`.
+
+# March 15th, 2019
+
+## testing Search component
+
+tags: `#testing #search #add-people`
+
+in testing search it was difficult getting the popup menu to appear after the text was changed. The issue with that ended up being two things. 
+
+1. the text input is debounced
+  - This causes the assertion to be called before the Search input renders the popup button. 
+  - This is resolved by using wait to delay when the assertion happens
+
+2. the selection of a menu result happens on mouse down rather than click
+
+I was able to get this tested with the following:
+
+```javascript
+   it('renders selected users', async () => {
+    const { getByText } = render(
+      createProvider(<AddTeamMembers {...defaultProps} />),
+    );
+
+    fireEvent.change(document.querySelector('[placeholder="peopleSearch"]'), {
+      target: { value: 'Barry' },
+    });
+
+    fireEvent.focus(document.querySelector('[placeholder="peopleSearch"]'));
+
+    const customMatcher = (content, element) => {
+      return (
+        /barry<\/span> baz/i.test(element.innerHTML) && /baz/i.test(content)
+      );
+    };
+
+    await wait(() => getByText(customMatcher));
+
+    fireEvent.mouseDown(getByText(customMatcher));
+
+    expect(getByText(/barry baz/i)).toBeInTheDocument();
+  });
+```
