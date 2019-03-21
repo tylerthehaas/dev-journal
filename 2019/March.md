@@ -194,3 +194,18 @@ I was able to get this tested with the following:
     expect(getByText(/barry baz/i)).toBeInTheDocument();
   });
 ```
+# March 21st, 2019
+
+## retriving user info from a instagram post
+
+we can get user data from the explorer api by building a url to hit out of the posts data stored in mongo. This can be constructed with `instagram.com/{username}?__a=1`. an example response can be found [here](https://www.instagram.com/bonniehaas/?__a=1).
+
+We run into problems when trying to do the same thing with the graph api. We are using the Recent Media edge on the Hashtag node to get data for a hashtag. Under the limitations section of that edges documentation it says `You cannot request the username field on returned media objects`. This would eliminate the ability to construct the url above as that requires the username as a path param.
+
+The graph API does have a User node but that represents an Instagram Business User so we would only be able to retrieve data if a post is from business users which will likely be a very small subset of posts.
+
+Additionally there is a Media node which is what is returned from the `recent_media` edge. This node does allow us to get a username for a media object. The major limitation with this node and all of its edges is that it is only accessible to the User who created the media object.
+
+The best solution to this that the graph API provides is the tags edge on the User node. This would allow us to retrieve all the fields that are returned from the media node including username. The major limitation here is that this edge only allows you to search for tags that match the instagram buisiness users name (ex. Bragify). Also it wont return private media but that shouldn't be too much of an issue.
+
+The mentioned media edge is similar in its use to the tags edge. Same capabilities and limitations.
