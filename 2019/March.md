@@ -196,7 +196,7 @@ I was able to get this tested with the following:
 ```
 # March 21st, 2019
 
-## retriving user info from a instagram post
+## retrieving user info from a instagram post
 
 we can get user data from the explorer api by building a url to hit out of the posts data stored in mongo. This can be constructed with `instagram.com/{username}?__a=1`. an example response can be found [here](https://www.instagram.com/bonniehaas/?__a=1).
 
