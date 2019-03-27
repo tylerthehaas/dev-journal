@@ -228,4 +228,26 @@ For Socaial User data we will want to capture the following:
 }
 ```
 
+# March 27th, 2019
 
+## fixing utils/suggested-content
+
+`tags: #align #fuse`
+
+Fuse works by doing a fuzzy search on a list of objects that have a particular key defined in its constructor. So in 
+
+```
+const tagsSearch = new Fuse(tags, {
+  keys: ['tag'],
+  shouldSort: true,
+  threshold: 0.4,
+  tokenize: true,
+});
+```
+
+it would look for a value in a list of objects that fuzzy match a given search term with the tag key.
+
+What this means is that since our api returns a list of strings. We have to transform those into an object with the shape of `{ tag: string }` and since react cant render objects we need to transform that back into a list of strings. 
+
+TLDR;
+string[] -> { tag: string } -> do fuse stuff -> string[]
