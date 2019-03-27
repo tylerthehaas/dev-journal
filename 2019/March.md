@@ -209,3 +209,23 @@ Additionally there is a Media node which is what is returned from the `recent_me
 The best solution to this that the graph API provides is the tags edge on the User node. This would allow us to retrieve all the fields that are returned from the media node including username. The major limitation here is that this edge only allows you to search for tags that match the instagram buisiness users name (ex. Bragify). Also it wont return private media but that shouldn't be too much of an issue.
 
 The mentioned media edge is similar in its use to the tags edge. Same capabilities and limitations.
+
+# March 23rd, 2019
+
+## instagram explorer API user data
+
+`tags: #socialuser #explorerapi #cavemanconsulting #instagram`
+
+For Socaial User data we will want to capture the following:
+
+```
+{
+  edge_followed_by: {count},
+  edge_owner_to_timeline_media: {count},
+  full_name,
+  id,
+  username, 
+}
+```
+
+
