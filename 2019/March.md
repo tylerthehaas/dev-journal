@@ -228,4 +228,14 @@ For Socaial User data we will want to capture the following:
 }
 ```
 
+# March 26th, 2019
+
+## How we retrieve instagram user info
+
+`tags: #instagram #explorerapi #gigg #cavemanconsulting #socialuser`
+
+1. Call `https://www.instagram.com/explore/tags/{hashtag}/?__a=1` to get list of posts which will contain a posts shortcode
+2. Call `https://www.instagram.com/p/{postShortcode}/?__a=1` to get info on each post which will include the media object owners username.
+3. Call `https://www.instagram.com/{username}/?__a=1` this will return info on a user.
+
 
