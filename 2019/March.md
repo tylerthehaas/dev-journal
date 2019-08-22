@@ -10,14 +10,14 @@ For Example:
 
 ```typescript
 interface Thing {
-    total: number
-    percentage: number;
+  total: number;
+  percentage: number;
 }
 
-function getNumber(thing: Thing | number): { basic: number} {
-    const isNumber = typeof thing === 'number';
-    const isSingular = isNumber ? thing === 1 : thing.total === 1;
-    return { basic: isNumber ? thing : thing.percentage }
+function getNumber(thing: Thing | number): { basic: number } {
+  const isNumber = typeof thing === "number";
+  const isSingular = isNumber ? thing === 1 : thing.total === 1;
+  return { basic: isNumber ? thing : thing.percentage };
 }
 ```
 
@@ -29,53 +29,52 @@ For Example:
 
 ```typescript
 interface Thing {
-    total: number
-    percentage: number;
+  total: number;
+  percentage: number;
 }
 
-function getNumber(thing: Thing | number): { basic: number} {
-    const isSingular = typeof thing === 'number' ? thing === 1 : thing.total === 1;
-    return { basic: typeof thing === 'number' ? thing : thing.percentage }
+function getNumber(thing: Thing | number): { basic: number } {
+  const isSingular =
+    typeof thing === "number" ? thing === 1 : thing.total === 1;
+  return { basic: typeof thing === "number" ? thing : thing.percentage };
 }
 ```
 
 In this snippet everything type checks because the compiler is able to recognize that thing has to be a number when the `typeof` check is true. But this is suboptimal because I have to rewrite the check everytime `thing` is referenced. To fix this typescript has a feature called type guards. The way type guards work is that you can take in a parameter to a function and as the functions return type you would cast it to whatever type you expect it to be.
 
-Consider: 
+Consider:
 
 ```typescript
 interface Thing {
-    total: number
-    percentage: number;
+  total: number;
+  percentage: number;
 }
 
-
 function isNumber(x: any): x is number {
-    return typeof x === "number";
+  return typeof x === "number";
 }
 
 function stuff(a: Thing | number) {
-    const isSingular = isNumber(a) ? a === 1 : a.total === 1;
-    return { basic: isNumber(a) ? a : a.percentage }
-} 
+  const isSingular = isNumber(a) ? a === 1 : a.total === 1;
+  return { basic: isNumber(a) ? a : a.percentage };
+}
 ```
 
 This would typecheck properly. But there is a big problem with casting it in this way. Imagine for a moment that you made a mistake and wrote `typeof x === "string"`. Like so:
 
 ```typescript
 interface Thing {
-    total: number
-    percentage: number;
+  total: number;
+  percentage: number;
 }
 
-
 function isNumber(x: any): x is number {
-    return typeof x === "string";
+  return typeof x === "string";
 }
 
 function stuff(a: Thing | number) {
-    const isSingular = isNumber(a) ? a === 1 : a.total === 1;
-    return { basic: isNumber(a) ? a : a.percentage }
+  const isSingular = isNumber(a) ? a === 1 : a.total === 1;
+  return { basic: isNumber(a) ? a : a.percentage };
 }
 ```
 
@@ -97,7 +96,7 @@ tags: `#attachments`
 
 The issue here is that when an attachment is added a modal pops up to have the user select the manager. When this happens the manager id is added to the attachment. In IE11 the `attachment.managerId` property is getting an empty string as a value.
 
-the attachments info is stored in firebase. So everything that updates the managerId for the attachment would have to happen in some firebase call. 
+the attachments info is stored in firebase. So everything that updates the managerId for the attachment would have to happen in some firebase call.
 
 In chrome (which is working) the only message sent that would alter the redux store with the necessary info is `child added changed`. but in chrome there is a managerId set on initial page load. it doesn't seem to be that way for IE11.
 
@@ -110,39 +109,37 @@ tags: `#fileupload #testing #react-testing-library`
 create a file using the File api use that to upload the file. See example below.
 
 ```javascript
-  it('is able to upload csv files', async () => {
-    const { container, getByText } = render(
-      createProvider(<AddPeople {...props} />),
-    );
+it("is able to upload csv files", async () => {
+  const { container, getByText } = render(
+    createProvider(<AddPeople {...props} />)
+  );
 
-    const filename = 'mylesgaskin.csv';
-    const file = new File(['(⌐□_□)'], filename, { type: 'text/csv' });
-    const fileInput = container.querySelector(
-      '#__test__add-people--file-upload',
-    );
+  const filename = "mylesgaskin.csv";
+  const file = new File(["(⌐□_□)"], filename, { type: "text/csv" });
+  const fileInput = container.querySelector("#__test__add-people--file-upload");
 
-    // button should be disabled
-    expect(getByText(/upload/i).disabled).toBe(true);
+  // button should be disabled
+  expect(getByText(/upload/i).disabled).toBe(true);
 
-    // display text should be default text
-    expect(getByText(/addFile/i)).toBeInTheDocument();
+  // display text should be default text
+  expect(getByText(/addFile/i)).toBeInTheDocument();
 
-    fireEvent.change(fileInput, { target: { files: [file] } });
+  fireEvent.change(fileInput, { target: { files: [file] } });
 
-    await wait(() => getByText(filename));
+  await wait(() => getByText(filename));
 
-    // button should now be enabled
-    expect(getByText(/upload/i).disabled).toBe(false);
-    expect(getByText(/upload/i).type).toBe('submit');
+  // button should now be enabled
+  expect(getByText(/upload/i).disabled).toBe(false);
+  expect(getByText(/upload/i).type).toBe("submit");
 
-    // display text should show file name
-    expect(getByText(filename)).toBeInTheDocument();
+  // display text should show file name
+  expect(getByText(filename)).toBeInTheDocument();
 
-    fireEvent.click(getByText(/upload/i));
+  fireEvent.click(getByText(/upload/i));
 
-    expect(services.getUploadStatus).toHaveBeenCalled();
-    expect(services.uploadUsersFile).toHaveBeenCalledTimes(1);
-  });
+  expect(services.getUploadStatus).toHaveBeenCalled();
+  expect(services.uploadUsersFile).toHaveBeenCalledTimes(1);
+});
 ```
 
 # March 13th, 2019
@@ -159,41 +156,41 @@ tags: `#material-ui #testing`
 
 tags: `#testing #search #add-people`
 
-in testing search it was difficult getting the popup menu to appear after the text was changed. The issue with that ended up being two things. 
+in testing search it was difficult getting the popup menu to appear after the text was changed. The issue with that ended up being two things.
 
 1. the text input is debounced
-  - This causes the assertion to be called before the Search input renders the popup button. 
-  - This is resolved by using wait to delay when the assertion happens
+
+- This causes the assertion to be called before the Search input renders the popup button.
+- This is resolved by using wait to delay when the assertion happens
 
 2. the selection of a menu result happens on mouse down rather than click
 
 I was able to get this tested with the following:
 
 ```javascript
-   it('renders selected users', async () => {
-    const { getByText } = render(
-      createProvider(<AddTeamMembers {...defaultProps} />),
-    );
+it("renders selected users", async () => {
+  const { getByText } = render(
+    createProvider(<AddTeamMembers {...defaultProps} />)
+  );
 
-    fireEvent.change(document.querySelector('[placeholder="peopleSearch"]'), {
-      target: { value: 'Barry' },
-    });
-
-    fireEvent.focus(document.querySelector('[placeholder="peopleSearch"]'));
-
-    const customMatcher = (content, element) => {
-      return (
-        /barry<\/span> baz/i.test(element.innerHTML) && /baz/i.test(content)
-      );
-    };
-
-    await wait(() => getByText(customMatcher));
-
-    fireEvent.mouseDown(getByText(customMatcher));
-
-    expect(getByText(/barry baz/i)).toBeInTheDocument();
+  fireEvent.change(document.querySelector('[placeholder="peopleSearch"]'), {
+    target: { value: "Barry" }
   });
+
+  fireEvent.focus(document.querySelector('[placeholder="peopleSearch"]'));
+
+  const customMatcher = (content, element) => {
+    return /barry<\/span> baz/i.test(element.innerHTML) && /baz/i.test(content);
+  };
+
+  await wait(() => getByText(customMatcher));
+
+  fireEvent.mouseDown(getByText(customMatcher));
+
+  expect(getByText(/barry baz/i)).toBeInTheDocument();
+});
 ```
+
 # March 21st, 2019
 
 ## retrieving user info from a instagram post
@@ -224,7 +221,7 @@ For Socaial User data we will want to capture the following:
   edge_owner_to_timeline_media: {count},
   full_name,
   id,
-  username, 
+  username,
 }
 ```
 
@@ -238,4 +235,26 @@ For Socaial User data we will want to capture the following:
 2. Call `https://www.instagram.com/p/{postShortcode}/?__a=1` to get info on each post which will include the media object owners username.
 3. Call `https://www.instagram.com/{username}/?__a=1` this will return info on a user.
 
+# March 27th, 2019
 
+## fixing utils/suggested-content
+
+`tags: #align #fuse`
+
+Fuse works by doing a fuzzy search on a list of objects that have a particular key defined in its constructor. So in
+
+```
+const tagsSearch = new Fuse(tags, {
+  keys: ['tag'],
+  shouldSort: true,
+  threshold: 0.4,
+  tokenize: true,
+});
+```
+
+it would look for a value in a list of objects that fuzzy match a given search term with the tag key.
+
+What this means is that since our api returns a list of strings. We have to transform those into an object with the shape of `{ tag: string }` and since react cant render objects we need to transform that back into a list of strings.
+
+TLDR;
+string[] -> { tag: string } -> do fuse stuff -> string[]
