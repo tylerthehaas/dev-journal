@@ -5,14 +5,14 @@
 ### Problems that lead to this
 
 1. Code reviews weren't thorough enough
-  - Need to be checking that all possible network responses are handled.
-  - Need to be thinking of the data model within components and pages more.
-    - Where are possible runtime exceptions going to happen?
-    - What possible states can each piece of data and each piece of state be in?
+    - Need to be checking that all possible network responses are handled.
+    - Need to be thinking of the data model within components and pages more.
+      - Where are possible runtime exceptions going to happen?
+      - What possible states can each piece of data and each piece of state be in?
 2. There was too wide of a gap between when the problem was introduced and when we started addressing it.
-  - Need to treat test failures with more seriousness
+    - Need to treat test failures with more seriousness
 3. Our unit tests aren't comprehensive enough
-  - Only testing happy paths instead of all possible code paths.
+    - Only testing happy paths instead of all possible code paths.
 4. The mesh point of where our app ends and core/victories/initiatives/align/prism begins has become blurred making debugging difficult.
 5. Lack of understanding the effects of json parsing errors was ultimate cause.
 6. Some growing pains with switching over to nextjs
