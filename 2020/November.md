@@ -1,4 +1,4 @@
-# November 27th, 2020
+# November 26th, 2020
 
 ## what does `git rev-parse --abbrev-ref HEAD` do?
 
