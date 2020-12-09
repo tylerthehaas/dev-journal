@@ -137,3 +137,68 @@ Used to pipe multiple numbers to a function
 
 `#fsharp`
 
+## architecture onboarding
+
+### Bounded Contexts
+
+#### What is a Bounded context
+
+* Owns its own data
+  * Is access controlled
+* Independent Deployments
+  * can have many as long as another deployment or bounded context depends on it or it on others
+* Vertical Slice of a Product
+* Linguistic Model
+  * Nouns, Events, Journeys
+
+# December 9th, 2020
+
+## Getting API fetch to play nicely with useEffect
+
+When creating a custom hook using our fetch wrapper we were getting an error with the following code
+
+```
+  useEffect(() => {
+    apiFetch(
+      `channelGroups/${priorityId}?SortBy=${sortBy}&sortDirection=${sortDirection}`,
+      'get'
+    ).then(channelGroups => {
+      if (isRight(channelGroups)) {
+        if (channelGroups.right !== null) setChannelGroups(channelGroups.right)
+      }
+    })
+  })
+```
+
+the error is:
+
+```
+Argument of type 'Promise<unknown>' is not assignable to parameter of type 'SetStateAction<PriorityChannelGroupRead[]>'.
+  Type 'Promise<unknown>' is not assignable to type '(prevState: PriorityChannelGroupRead[]) => PriorityChannelGroupRead[]'.
+    Type 'Promise<unknown>' provides no match for the signature '(prevState: PriorityChannelGroupRead[]): PriorityChannelGroupRead[]'.ts(2345)
+```
+
+So it is returning a type of `Promise<unknown>`. apiFetch has the type signature 
+
+```
+apiFetch: <T>(url: string, meth: 'get' | 'put' | 'post' | 'delete', {headers, ...opts}?:  RequestInit) => Promise<Right<Promise<T>> | Right<null> | Left<ApiError>>
+```
+
+This tells us that we are required to pass in a generic when calling apiFetch in order for TypeScript to know what type is returned by the promise in a successful response. That would make our code change to
+
+```
+useEffect(() => {
+  apiFetch<PriorityChannelGroupRead[]>(
+    `channelGroups/${priorityId}?SortBy=${sortBy}&sortDirection=${sortDirection}`,
+    'get'
+  ).then(channelGroups => {
+    if (isRight(channelGroups)) {
+      if (channelGroups.right !== null) setChannelGroups(channelGroups.right)
+    }
+  })
+})
+```
+
+this will make it so that instead of returning a `Promise<unknown>` we will get a `Promise<PriorityChannelGroupRead[]` which allows us to call `.then` to pull out the value to set to state.
+
+`#ts #generics #fp-ts #either #useEffect #react`
